@@ -71,9 +71,10 @@ export const AddAdminForm = () => {
     const add = async () => {
       try {
         const userRef = doc(db, 'users', newAdminId);
-        await updateDoc(userRef, { name: adminName }, { role: adminRole });
+
+        await updateDoc(userRef, { role: adminRole });
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     };
     add();
@@ -110,6 +111,7 @@ export const AddAdminForm = () => {
     if (canAddLecturer) {
       roles.push('lecturer');
     }
+    setAdminRole(roles[0]);
     return (
       <>
         <select
@@ -129,7 +131,7 @@ export const AddAdminForm = () => {
     <>
       <button onClick={toggleForm}>{showForm ? 'Cancel' : 'Add +'}</button>
       {showForm && (
-        <form>
+        <div>
           <br />
           <label> Name: </label>
           <input required onChange={(e) => setAdminName(e.target.value)} />
@@ -151,7 +153,7 @@ export const AddAdminForm = () => {
           >
             Submit
           </button>
-        </form>
+        </div>
       )}
     </>
   );
